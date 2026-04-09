@@ -1,0 +1,12 @@
+.summary-container {
+  padding: 5% 15%;   // same as skills
+  display: flex;
+  flex-direction: column;
+  text-align: left;  // ✅ important
+}
+
+.summary-card {
+  max-width: 1000px;
+  width: 150%;
+  text-align: left;
+}

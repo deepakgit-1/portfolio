@@ -17,11 +17,21 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 
 const drawerWidth = 240;
-const navItems = [['Expertise', 'expertise'], ['History', 'history'], ['Projects', 'projects'], ['Contact', 'contact']];
 
-function Navigation({parentToChild, modeChange}: any) {
+/* ✅ UPDATED NAV ITEMS */
+const navItems = [
+  ['About', 'summary'],
+  ['Education', 'history'],
+  
+  ['Projects', 'projects'],
+  ['Skills', 'skills'],
+  ['Courses', 'courses'],
+  ['Contact', 'contact']
+];
 
-  const {mode} = parentToChild;
+function Navigation({ parentToChild, modeChange }: any) {
+
+  const { mode } = parentToChild;
 
   const [mobileOpen, setMobileOpen] = useState<boolean>(false);
   const [scrolled, setScrolled] = useState<boolean>(false);
@@ -46,25 +56,30 @@ function Navigation({parentToChild, modeChange}: any) {
     };
   }, []);
 
+  /* ✅ SCROLL FUNCTION */
   const scrollToSection = (section: string) => {
-    console.log(section)
-    const expertiseElement = document.getElementById(section);
-    if (expertiseElement) {
-      expertiseElement.scrollIntoView({ behavior: 'smooth' });
-      console.log('Scrolling to:', expertiseElement);  // Debugging: Ensure the element is found
-    } else {
-      console.error('Element with id "expertise" not found');  // Debugging: Log error if element is not found
+    const element = document.getElementById(section);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
+  /* ✅ MOBILE DRAWER */
   const drawer = (
-    <Box className="navigation-bar-responsive" onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
-      <p className="mobile-menu-top"><ListIcon/>Menu</p>
+    <Box
+      className="navigation-bar-responsive"
+      onClick={handleDrawerToggle}
+      sx={{ textAlign: 'center' }}
+    >
+      <p className="mobile-menu-top"><ListIcon /> Menu</p>
       <Divider />
       <List>
         {navItems.map((item) => (
           <ListItem key={item[0]} disablePadding>
-            <ListItemButton sx={{ textAlign: 'center' }} onClick={() => scrollToSection(item[1])}>
+            <ListItemButton
+              sx={{ textAlign: 'center' }}
+              onClick={() => scrollToSection(item[1])}
+            >
               <ListItemText primary={item[0]} />
             </ListItemButton>
           </ListItem>
@@ -76,8 +91,16 @@ function Navigation({parentToChild, modeChange}: any) {
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar component="nav" id="navigation" className={`navbar-fixed-top${scrolled ? ' scrolled' : ''}`}>
+
+      {/* ✅ NAVBAR */}
+      <AppBar
+        component="nav"
+        id="navigation"
+        className={`navbar-fixed-top${scrolled ? ' scrolled' : ''}`}
+      >
         <Toolbar className='navigation-bar'>
+
+          {/* MOBILE MENU BUTTON */}
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -87,36 +110,59 @@ function Navigation({parentToChild, modeChange}: any) {
           >
             <MenuIcon />
           </IconButton>
+
+          {/* DARK / LIGHT TOGGLE */}
           {mode === 'dark' ? (
-            <LightModeIcon onClick={() => modeChange()}/>
+            <LightModeIcon onClick={() => modeChange()} style={{ cursor: 'pointer' }} />
           ) : (
-            <DarkModeIcon onClick={() => modeChange()}/>
+            <DarkModeIcon onClick={() => modeChange()} style={{ cursor: 'pointer' }} />
           )}
-          <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+
+          {/* DESKTOP MENU */}
+          <Box sx={{ display: { xs: 'none', sm: 'block', marginLeft: '20px' } }}>
             {navItems.map((item) => (
-              <Button key={item[0]} onClick={() => scrollToSection(item[1])} sx={{ color: '#fff' }}>
+              <Button
+                key={item[0]}
+                onClick={() => scrollToSection(item[1])}
+                sx={{
+                  color: '#fff',
+                  textTransform: 'none',
+                  fontWeight: 500,
+                  marginRight: '10px',
+                  '&:hover': {
+                    color: '#6366f1'
+                  }
+                }}
+              >
                 {item[0]}
               </Button>
             ))}
           </Box>
+
         </Toolbar>
       </AppBar>
+
+      {/* MOBILE DRAWER */}
       <nav>
         <Drawer
           variant="temporary"
           open={mobileOpen}
           onClose={handleDrawerToggle}
           ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
+            keepMounted: true,
           }}
           sx={{
             display: { xs: 'block', sm: 'none' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+            '& .MuiDrawer-paper': {
+              boxSizing: 'border-box',
+              width: drawerWidth
+            },
           }}
         >
           {drawer}
         </Drawer>
       </nav>
+
     </Box>
   );
 }

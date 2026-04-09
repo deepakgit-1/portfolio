@@ -1,0 +1,15 @@
+.courses-container {
+  padding: 5% 10%;   // same as skills
+  display: flex;
+  flex-direction: column;
+  text-align: left;  // ✅ align left
+}
+
+.courses-content {
+  width: 100%;
+}
+
+/* REMOVE center alignment if exists */
+.course-card {
+  max-width: 700px;  // keeps it neat
+}
